@@ -6,9 +6,9 @@ const users = require('./routes/users');
 const { PORT = 3000 } = process.env;
 const app = express();
 
-const bodyParser = require('body-parser');
+// const bodyParser = require('body-parser');
 
-app.use(bodyParser.urlencoded({ extended: true }));
+// app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/cards', cards);
