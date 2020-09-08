@@ -7,6 +7,7 @@ router.get('/', (req, res) => {
   fs.readFile(dataPath, { encoding: 'utf8' }, (err, data) => {
     if (err) {
       console.log(err);
+      res.status(500).send({ message: 'Internal Server Error' });
       return;
     }
     const users = JSON.parse(data);
@@ -19,14 +20,14 @@ router.get('/:id', (req, res) => {
   fs.readFile(dataPath, { encoding: 'utf8' }, (err, data) => {
     if (err) {
       console.log(err);
+      res.status(500).send({ message: 'Internal Server Error' });
       return;
     }
     const users = JSON.parse(data);
     const user = users.filter((item) => item._id === req.params.id);
 
     if (user.length === 0) {
-      res.status(404);
-      res.send({ message: 'User ID not found' });
+      res.status(404).send({ message: 'User ID not found' });
     } else {
       res.send(user[0]);
     }

@@ -7,6 +7,7 @@ router.get('/', (req, res) => {
   fs.readFile(dataPath, { encoding: 'utf8' }, (err, data) => {
     if (err) {
       console.log(err);
+      res.status(500).send({ message: 'Internal Server Error' });
       return;
     }
     const cards = JSON.parse(data);
