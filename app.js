@@ -1,18 +1,31 @@
 const express = require('express');
 const path = require('path');
-const cards = require('./routes/cards');
-const users = require('./routes/users');
+const mongoose = require('mongoose');
+const cardsRouter = require('./routes/cards');
+const usersRouter = require('./routes/users');
 
 const { PORT = 3000 } = process.env;
 const app = express();
 
-// const bodyParser = require('body-parser');
+mongoose.connect('mongodb://localhost:27017/aroundb', {
+  useNewUrlParser: true,
+  useCreateIndex: true,
+  useFindAndModify: false,
+});
 
-// app.use(bodyParser.urlencoded({ extended: true }));
+app.use((req, res, next) => {
+  req.user = {
+    _id: '5f67e881d596db1a39bf38fa',
+  };
+  next();
+});
+
+app.use(express.json({ extended: true }));
+app.use(express.urlencoded({ extended: true }));
 
 app.use(express.static(path.join(__dirname, 'public')));
-app.use('/cards', cards);
-app.use('/users', users);
+app.use('/cards', cardsRouter);
+app.use('/users', usersRouter);
 
 app.get('*', (req, res) => {
   res.status(404).send({ message: 'Requested resource not found' });

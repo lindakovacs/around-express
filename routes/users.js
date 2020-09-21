@@ -1,37 +1,24 @@
 const router = require('express').Router();
-const fs = require('fs');
-const path = require('path');
+const users = require('../controllers/users');
 
 router.get('/', (req, res) => {
-  const dataPath = path.join(__dirname, '../data/users.json');
-  fs.readFile(dataPath, { encoding: 'utf8' }, (err, data) => {
-    if (err) {
-      console.log(err);
-      res.status(500).send({ message: 'Internal Server Error' });
-      return;
-    }
-    const users = JSON.parse(data);
-    res.send(users);
-  });
+  users.getAllUsers(req, res);
+});
+
+router.post('/', (req, res) => {
+  users.createUser(req, res);
 });
 
 router.get('/:id', (req, res) => {
-  const dataPath = path.join(__dirname, '../data/users.json');
-  fs.readFile(dataPath, { encoding: 'utf8' }, (err, data) => {
-    if (err) {
-      console.log(err);
-      res.status(500).send({ message: 'Internal Server Error' });
-      return;
-    }
-    const users = JSON.parse(data);
-    const user = users.filter((item) => item._id === req.params.id);
+  users.getUserById(req, res);
+});
 
-    if (user.length === 0) {
-      res.status(404).send({ message: 'User ID not found' });
-    } else {
-      res.send(user[0]);
-    }
-  });
+router.patch('/me', (req, res) => {
+  users.updateUser(req, res);
+});
+
+router.patch('/me/avatar', (req, res) => {
+  users.updateAvatar(req, res);
 });
 
 module.exports = router;
