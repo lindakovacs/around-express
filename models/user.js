@@ -18,7 +18,7 @@ const userSchema = new mongoose.Schema({
     required: true,
     validate: {
       validator(v) {
-        return /https?:\/\/(www\.)?([-a-zA-Z0-9:%_+.#//]*)/.test(v);
+        return /^(https?):\/\/(www\.)?[\w-@:%+~#=]+[.][.\w/\-?#=&~@:()!$+%]*$/gm.test(v);
       },
     },
   },
